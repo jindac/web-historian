@@ -53,10 +53,34 @@ exports.isUrlInList = function(url, cb) {
   });
 };
 
-exports.addUrlToList = function() {
+exports.addUrlToList = function(url, cb) {
+  exports.isUrlInList(url, function(err, exists) {
+    if (err) {
+      cb(err);
+    } else {
+      if (exists) {
+        cb(null);
+      } else {
+        fs.appendFile(exports.paths.list, url + '\n', function() {
+          cb(null);
+        });
+      }
+    }
+  });
 };
 
-exports.isUrlArchived = function() {
+exports.isUrlArchived = function(url, cb) {
+  fs.readFile(path.join(exports.paths.archivedSites, url), function(err, data) {
+    if (err) {
+      if (err.code === 'ENOENT') {
+        cb(null, false);
+      } else {
+        cb(err, null);
+      }
+    } else {
+      cb(null, true);
+    }
+  });
 };
 
 exports.downloadUrls = function() {
