@@ -86,6 +86,7 @@ exports.handleRequest = function (req, res) {
           console.log(err);
         } else {
           statusCode = 302;
+          headers['Content-Type'] = 'application/json';
           res.writeHead(statusCode, headers);
           res.end(JSON.stringify({}));
         }
