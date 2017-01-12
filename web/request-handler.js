@@ -28,6 +28,41 @@ exports.handleRequest = function (req, res) {
         res.writeHead(statusCode, headers);
         res.end(data);
       }
+    });             
+  } else if (req.method === 'GET') {
+    archive.isUrlArchived(req.url, function (err, exists) {
+      if (err) {
+        console.log(err);
+      } else if (exists) { // page is in archive
+        fs.readFile(path.join(archive.paths.archivedSites, req.url), function(err, page) {
+          if (err) {
+            console.log('Failed to read file', err);
+          } else {
+            statusCode = 200;
+            console.log('statusCode ========> ', statusCode);
+            data = page.toString();
+            console.log('datatostring =========>', data);
+            res.writeHead(statusCode, headers);
+            res.end(data);
+          }
+        });            
+      } else { // page is not in archive -- may or may not be in list
+        // TODO add URL to list
+
+        // take user to loading.html 
+        fs.readFile(path.join(archive.paths.siteAssets, 'loading.html'), function(err, page) {
+          if (err) {
+            console.log('Failed to read file', err);
+          } else {
+            statusCode = 200;
+            console.log('statusCode ========> ', statusCode);
+            data = page.toString();
+            console.log('datatostring =========>', data);
+            res.writeHead(statusCode, headers);
+            res.end(data);
+          }
+        });         
+      }
     });
   }
 };
