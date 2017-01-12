@@ -83,5 +83,6 @@ exports.isUrlArchived = function(url, cb) {
   });
 };
 
-exports.downloadUrls = function() {
+exports.downloadUrls = function(urlArray) {
+
 };
