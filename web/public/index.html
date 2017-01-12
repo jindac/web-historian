@@ -2,11 +2,33 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="styles.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
   Enter a URL here:
-  <form method="POST">
-    <input type="input" name="url"></input>
-  </form>
+  <div id="urlForm"> 
+    <input id="urlInput" type="input" name="url"></input>
+    <button id='submitButton'>Submit</button>
+  </div>
+  <script> 
+    $(document).ready(function() {
+      var $button = $('#submitButton');
+      $button.on('click', function() {
+        var $input = $('#urlInput');
+        var postData = {url: $input.val() };
+        $.ajax({
+          url: 'http://127.0.0.1:8080/',
+          type: 'POST',
+          data: JSON.stringify(postData),
+          success: function (data) {
+            console.log('POST sent');
+          },
+          error: function (error) {
+            console.error('Failed to send message', error);
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

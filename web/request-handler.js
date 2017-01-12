@@ -73,5 +73,23 @@ exports.handleRequest = function (req, res) {
         });   
       }
     });
+  } else if (req.url === '/' && req.method === 'POST') {
+    var body = '';
+    req.on('data', function(chunk) {
+      body += chunk;
+    });
+    req.on('end', function() {
+      body = JSON.parse(body);
+      // console.log('body ============>', body.url);
+      archive.addUrlToList(body.url, function(err) {
+        if (err) {
+          console.log(err);
+        } else {
+          statusCode = 302;
+          res.writeHead(statusCode, headers);
+          res.end(JSON.stringify({}));
+        }
+      });
+    });
   }
 };
