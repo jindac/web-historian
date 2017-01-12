@@ -32,6 +32,7 @@ exports.readListOfUrls = function(cb) {
     } else {
       data = data.toString();
       var urlArray = data.split('\n');
+      urlArray.pop(); //remove final empty string;
       cb(null, urlArray);
     }
   });
@@ -70,15 +71,16 @@ exports.addUrlToList = function(url, cb) {
 };
 
 exports.isUrlArchived = function(url, cb) {
+  console.log('Preparing to read: ', path.join(exports.paths.archivedSites, url));
   fs.readFile(path.join(exports.paths.archivedSites, url), function(err, data) {
     if (err) {
-      if (err.code === 'ENOENT') {
+      if (err.code === 'ENOENT') { //file is not archieved
         cb(null, false);
       } else {
-        cb(err, null);
+        cb(err, null); //other errors
       }
     } else {
-      cb(null, true);
+      cb(null, true); //file is archived
     }
   });
 };
