@@ -30,8 +30,6 @@ setTimeout(function() {
   }
 }, 1000);
 
-//go through sites.txt (readListOfUrls)
-  //for each,
-    //if not in archive (isUrlArchived)
-      //add to an array
-      //pass array to downloadurls
+
+// cron job:
+// */1 * * * * /usr/local/bin/node /Users/student/Desktop/WebHistorian/workers/htmlfetcher.js
