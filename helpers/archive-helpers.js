@@ -71,7 +71,7 @@ exports.addUrlToList = function(url, cb) {
 };
 
 exports.isUrlArchived = function(url, cb) {
-  console.log('Preparing to read: ', path.join(exports.paths.archivedSites, url));
+  console.log('Preparing to check archives for: ', path.join(exports.paths.archivedSites, url));
   fs.readFile(path.join(exports.paths.archivedSites, url), function(err, data) {
     if (err) {
       if (err.code === 'ENOENT') { //file is not archieved
